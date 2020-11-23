@@ -1,0 +1,127 @@
+
+
+_ALU_IMM:
+        ucode_lw #2 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
+        ucode_uw LD=1,0,0,1 ALU=0,0,0,0
+        
+        padding
+        
+        padding
+        
+        padding
+        
+_ALU_ZP8:
+
+        ; Step 0
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,0,1,1 ALU=0,0,0,0
+        
+        ; Step 1
+        ucode_lw #2 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=1,1,1,0 ALU=1,1,1,0
+        
+        ; Step 2
+        ucode_lw #2 OUT_PC=0 BR=0 NEXT=0 ISSUE=1 WR=0
+        ucode_uw LD=1,0,0,0 ALU=0,0,0,0
+        
+        padding
+        
+
+_BRANCH:
+        ; Step 0
+        ucode_lw #0 OUT_PC=0 BR=1 NEXT=1 ISSUE=0 WR=0
+        ucode_uw LD=0,0,0,1 ALU=0,0,0,0
+        
+        ; Step 1
+        ucode_lw #2 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=1,0,1,0 ALU=1,0,0,0
+        
+        ; Step 2 : FIX PREFETCH
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
+        ucode_uw LD=0,0,0,1 ALU=0,0,0,0
+        
+        padding
+        
+
+_JUMP:
+        ; Step 0
+        ucode_lw #3 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=1,0,1,0 ALU=0,0,0,0
+        
+        ; Step 1 : FIX PREFETCH
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
+        ucode_uw LD=0,0,0,1 ALU=0,0,0,0
+        
+        padding
+        
+        padding
+
+_LOAD_Y:
+        ; Step 0
+        ucode_lw #2 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,0,1,1 ALU=1,0,0,1
+        
+        ; Step 1
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,1,1,0 ALU=0,0,0,0
+        
+        ; Step 2
+        ucode_lw #1 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
+        ucode_uw LD=1,0,0,0 ALU=0,0,0,0
+        
+        ; Step 3
+        padding
+        
+_ALU_UNARY:
+        ucode_lw #3 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
+        ucode_uw LD=1,0,0,1 ALU=0,0,0,0
+        
+        padding
+        
+        padding
+        
+        padding
+        
+
+_STORE_Y:
+        ; Step 0
+        ucode_lw #2 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,0,1,1 ALU=1,0,0,1
+        
+        ; Step 1
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=1
+        ucode_uw LD=0,0,0,0 ALU=0,0,0,0
+        
+        padding
+        
+        padding
+        
+_STORE_ZP:
+        ; Step 0
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,0,1,1 ALU=0,0,0,0
+        
+        ; Step 1
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=1
+        ucode_uw LD=0,0,0,0 ALU=0,0,0,0
+        
+        padding
+        
+        padding
+
+_FETCH:
+        ; Step 0        --    Init Only
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,1,0,0 ALU=0,0,0,0
+        
+        ; Step 1        --    Init Only
+        ucode_lw #1 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=1,0,1,0 ALU=0,0,0,0
+        
+        ; Step 2        --    AR OK, PREFETCH DIRTY
+        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
+        ucode_uw LD=0,0,0,1 ALU=0,0,0,0
+        
+        ; Step 3        --    AR DIRTY, PREFETCH READY, ISSUE       ENVIRONMENT: PC IS POINTING TO THIS_ADDR + 2, PREFETCH IS INVALID
+        ucode_lw #2 OUT_PC=1 BR=0 NEXT=0 ISSUE=1 WR=0
+        ucode_uw LD=1,1,1,0 ALU=1,1,1,0         
