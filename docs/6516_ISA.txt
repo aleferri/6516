@@ -69,3 +69,11 @@ bit    15: RESERVED
     Read Address at 0x0000
     Jump to the specified address
     Start Microcode Loop
+    
+Example program:
+
+@100
+LD A, #6        0001 0111 0000 0110     1706
+LD X, #0        0010 0111 0000 0000     2700
+SUB X, #255     0010 0010 1111 1111     22FF
+ST A, (X, 4)    1101 0010 0000 0100     D204
