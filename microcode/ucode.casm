@@ -1,15 +1,16 @@
 
 // MSB -> LSB
-// bit   0-3= LD_GR LD_DR LD_AR LD_CY
+// bit   0-3= LD_GR LD_DR LD_AR LD_PF
 // bit     4= FORCE_ALU (0= ALLOW, 1= FORCE)
-// bit     5= ALU_LSB (0= ADD, 1= ICY)
-// bit     6= CY_SET {0= CY_ALLOW, 1= CY_SET}
+// bit     5= 0
+// bit     6= 0
 // bit     7= Y_SEL
-// bit   8-9= OE_BUS (0= R, 1= DR, 2= ALU, 3= AR)
-// bit 10-11= MASK_DR (0= ALLOW, 1= MASK_HIGH, 2= MASK_TOP_4)
-// bit    12= MASK_R# (0= ALLOW, 1= FORCE_PC)
-// bit    13= COND_DISABLE_GOTO
-// bit 14-15= GOTO (0= FETCH0, 1= FETCH1, 2= FETCH2, 3= NEXT)
+// bit   8-9= OE_BUS (0= R, 1= DR, 2= ALU_B, 3= ALU_U)
+// bit    10= MASK_R# (0= ALLOW, 1= FORCE_PC)
+// bit    11= BR_MASK_CC
+// bit    12= ISSUE_NEXT_OP
+// bit    13= WRITE_MEM
+// bit 14-15= 0
 
 .enum FLAGS {
     LD,
@@ -21,8 +22,8 @@
     WR
 }
 
-.opcode ucode_uw LD=ld_gr,ld_dr,ld_ar,ld_pf ALU=force,a_lsb,cy_set,y_sel -> {
-    .db (ld_gr << 7) + (ld_dr << 6) + (ld_ar << 5) + (ld_pf << 4) + (force << 3) + (a_lsb << 2) + (cy_set << 1) + y_sel;
+.opcode ucode_uw LD=ld_gr,ld_dr,ld_ar,ld_pf ALU=force,y_sel -> {
+    .db (ld_gr << 7) + (ld_dr << 6) + (ld_ar << 5) + (ld_pf << 4) + (force << 3) + y_sel;
 }
 
 .opcode ucode_lw #BUS OUT_PC=force_pc BR=disable NEXT=go_next ISSUE=issue_next WR=write -> {

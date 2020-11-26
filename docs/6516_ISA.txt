@@ -29,7 +29,7 @@ Legend:
 
 ALU encoding (fff): 
     - 000 ADD   A + B, 
-    - 001 ICY   A + CY, 
+    - 001 TAD   carry_out(A + B + CY) with CY set to 0, 
     - 010 SUB   A + ~B + CY, with CY set to 1, 
     - 011 CMP   carry_out(A + ~B + CY) with CY set to 1, 
     - 100 AND   A & B, 
@@ -37,9 +37,11 @@ ALU encoding (fff):
     - 110 EOR   A ^ B, 
     - 111 MOV   B
     
-ALU2 encoding (f): 
-    - 0 ASL Arithmetic Shift Left, 
-    - 1 LSR Logical Shift Right
+ALU2 encoding (ff):
+    - 00 ICY
+    - 01 RESERVED
+    - 10 ASL Arithmetic Shift Left, 
+    - 11 LSR Logical Shift Right
 
 PERFORMANCE:
 ALU_IM8:    BEST 1, WORST: 3
@@ -53,11 +55,10 @@ STORE:      BEST 2, WORST: 4
 
 Microcode Signals:
 bit   0-3: LD_GR LD_DR LD_AR LD_PR                  -- Load General Register, Load Data Register, Load Address Register, Load Prefetch Register
-bit     4: FORCE_ALU (0: ALLOW, 1: FORCE)           -- Force ADD operation in ALU
-bit     5: ALU_LSB (0: ADD, 1: ICY)                 -- Set LSB of ALU command
-bit     6: CY_SET {0: CY_ALLOW, 1: CY_ALU_LSB}      -- Mask CY
+bit     4: FORCE_ALU (0: ALLOW, 1: FORCE)           -- Force ADD OR ICY operation in ALU
+bit   5-6: RESERVED
 bit     7: Y_SEL { USE Y INSTEAD OF R }             -- Use YY bits from the instruction instead of the RR bits
-bit   8-9: OE_BUS (0: R, 1: DR, 2: ALU, 3: ALU2)    -- Output Enable of units to the internal common bus
+bit   8-9: OE_BUS (0: R, 1: DR, 2: ALU_B, 3: ALU_U) -- Output Enable of units to the internal common bus
 bit    10: MASK_R# (0: ALLOW, 1: FORCE_PC)          -- Mask Register Selection
 bit    11: EVAL_BR                                  -- Mask NEXT signal if Condition is met
 bit    12: NEXT                                     -- Repeat microcode loop (used when AR is not set to PC at the end of an instruction or prefetch is not ready)
