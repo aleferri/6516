@@ -19,6 +19,15 @@ _wait:      LD      A, 16
             LD      Y, #1
             ST      Y, (X, 0)
 
+_self_test: LD      X, #0
+            SUB     X, #255
+            LD      A, 0
+            ST      A, (X, 4)
+            ST      A, (X, 5)
+            ST      A, (X, 6)
+            ST      A, (X, 7)
+            RET
+
 _bcd_binary: .db 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 9, 0, 0, 1, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5
 
             ; dec2bcd ( n : u16, ptr : &u16 ) -> void
