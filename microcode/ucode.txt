@@ -31,7 +31,7 @@ _ALU_ZP8:
 
 _BRANCH:
         ; BUS[@R] ; PC ++ -> AR, PC ; FETCH ; ISSUE
-        ucode_byte_low      REG=0 CDB=#3 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
         ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=any
         
         ; PC + DI -> PC, AR

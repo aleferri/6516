@@ -23,27 +23,27 @@ _sieve:     LD      X, #200
 .alias i        199
 .alias j        198
 .alias count    197
-            ST      A, .i
+            ST      A, i
             CALL    _dec2bcd
-            LD      A, .i
+            LD      A, i
             SUB     A, #1
         
             ; FOR 1 TO 10
 .L0:        BEQ     A, .RET
-            ST      A, .i
+            ST      A, i
             LD      X, bench_size
             LD      Y, bench_size
             LD      A, #1
             CALL    _memset
             LD      X, #0
-            ST      X, .j
+            ST      X, j
         
             ; FOR I := 0 TO 8192
-.L1:        LD      X, .j
+.L1:        LD      X, j
             SUB     X, bench_size
             BEQ     X, .BREAK
             LD      Y, bench_size
-            ADD     Y, .j
+            ADD     Y, j
             LD      A, (Y, 0)
                 
             ; IF FLAGS[I]
