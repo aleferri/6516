@@ -39,7 +39,7 @@ ALU_0 encoding bits (fff):
     
 ALU_1 encoding (ff):
     - 00 ICY
-    - 01 RESERVED
+    - 01 BSW ( Byte Swap )
     - 10 ASL Arithmetic Shift Left, 
     - 11 LSR Logical Shift Right
     
@@ -119,13 +119,6 @@ bit     0: ISSUE                                        -- Issue Next Instructio
     Start Microcode Loop
     
 Example program:
-
-000 rr fff i8      //alu #i8
-001 rr fff z8      //alu zp8	ZP -> R
-010 rr cxd a8      //branch on Z(R) = C to PC + { sign_ext(d), offset8 }
-011 rr xyy a8      //jump to Y + disp8, L = PC
-100 rr 0yy a8      //ld.r Y, address8
-110 rr 0yy a8      //st.r Y, address8
 
 @100
 LD Y, #70       0001 1111 0100 1010     1F46
