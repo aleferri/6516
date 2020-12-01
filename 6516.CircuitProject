@@ -43,9 +43,6 @@ RA: revision A</lc:Note>
 		<lc:Name>Mux</lc:Name>
 	</lc:CollapsedCategory>
 	<lc:CollapsedCategory>
-		<lc:Name>Microcode</lc:Name>
-	</lc:CollapsedCategory>
-	<lc:CollapsedCategory>
 		<lc:Name>MP Circuits</lc:Name>
 	</lc:CollapsedCategory>
 	<lc:CollapsedCategory>
@@ -4369,6 +4366,23 @@ also complement b</lc:Note>
 		<lc:Name>CC</lc:Name>
 		<lc:Note>Condition Code</lc:Note>
 		<lc:JamNotation>CC</lc:JamNotation>
+		<lc:Index>1</lc:Index>
+	</lc:Pin>
+	<lc:Pin>
+		<lc:PinId>83d0d7fc-7dc9-4f03-a542-60159c9a0571</lc:PinId>
+		<lc:CircuitId>6b4a714a-a031-4cd9-adc6-c1c7bc8e9fdb</lc:CircuitId>
+		<lc:PinSide>Bottom</lc:PinSide>
+		<lc:Name>A</lc:Name>
+		<lc:JamNotation>A</lc:JamNotation>
+		<lc:Index>2</lc:Index>
+	</lc:Pin>
+	<lc:Pin>
+		<lc:PinId>fdcf4887-1aa0-4fce-9c20-2390bc6b84a8</lc:PinId>
+		<lc:CircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:CircuitId>
+		<lc:PinSide>Top</lc:PinSide>
+		<lc:Name>A</lc:Name>
+		<lc:Note>Always</lc:Note>
+		<lc:JamNotation>A</lc:JamNotation>
 	</lc:Pin>
 	<lc:CircuitProbe>
 		<lc:CircuitProbeId>94fdad9a-f641-4f44-b851-1f41be37fd19</lc:CircuitProbeId>
@@ -17138,6 +17152,28 @@ each font scanline is set on single PUT command
 		<lc:LogicalCircuitId>50e0fa87-f11d-43d0-834a-5fa481275712</lc:LogicalCircuitId>
 		<lc:X>28</lc:X>
 		<lc:Y>13</lc:Y>
+	</lc:CircuitSymbol>
+	<lc:CircuitSymbol>
+		<lc:CircuitSymbolId>e6fc5509-866f-4fe4-ab04-1e4b04afd8d5</lc:CircuitSymbolId>
+		<lc:CircuitId>83d0d7fc-7dc9-4f03-a542-60159c9a0571</lc:CircuitId>
+		<lc:LogicalCircuitId>6b4a714a-a031-4cd9-adc6-c1c7bc8e9fdb</lc:LogicalCircuitId>
+		<lc:X>4</lc:X>
+		<lc:Y>1</lc:Y>
+	</lc:CircuitSymbol>
+	<lc:CircuitSymbol>
+		<lc:CircuitSymbolId>c1510e7c-c0e7-4fb9-a2ef-5fa214733a75</lc:CircuitSymbolId>
+		<lc:CircuitId>fdcf4887-1aa0-4fce-9c20-2390bc6b84a8</lc:CircuitId>
+		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
+		<lc:X>9</lc:X>
+		<lc:Y>7</lc:Y>
+	</lc:CircuitSymbol>
+	<lc:CircuitSymbol>
+		<lc:CircuitSymbolId>3d3bd2c9-026a-44e9-99ea-2e0ee9c665fd</lc:CircuitSymbolId>
+		<lc:CircuitId>00000000-0000-0000-0000-000000040200</lc:CircuitId>
+		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
+		<lc:X>19</lc:X>
+		<lc:Y>13</lc:Y>
+		<lc:Rotation>Right</lc:Rotation>
 	</lc:CircuitSymbol>
 	<lc:Wire>
 		<lc:WireId>e630280d-e34c-4727-9827-645749d23540</lc:WireId>
@@ -37638,7 +37674,7 @@ each font scanline is set on single PUT command
 	<lc:Wire>
 		<lc:WireId>6e90608c-b3ad-4b44-8de1-b1648614c1cc</lc:WireId>
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
-		<lc:X1>15</lc:X1>
+		<lc:X1>16</lc:X1>
 		<lc:Y1>31</lc:Y1>
 		<lc:X2>23</lc:X2>
 		<lc:Y2>31</lc:Y2>
@@ -38260,14 +38296,6 @@ each font scanline is set on single PUT command
 		<lc:Y2>43</lc:Y2>
 	</lc:Wire>
 	<lc:Wire>
-		<lc:WireId>7ed93079-36f1-44a1-b262-df44335dcd02</lc:WireId>
-		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
-		<lc:X1>10</lc:X1>
-		<lc:Y1>46</lc:Y1>
-		<lc:X2>55</lc:X2>
-		<lc:Y2>46</lc:Y2>
-	</lc:Wire>
-	<lc:Wire>
 		<lc:WireId>9a81c018-ad96-4642-802c-efab985df55f</lc:WireId>
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
 		<lc:X1>55</lc:X1>
@@ -38688,7 +38716,7 @@ each font scanline is set on single PUT command
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
 		<lc:X1>29</lc:X1>
 		<lc:Y1>22</lc:Y1>
-		<lc:X2>14</lc:X2>
+		<lc:X2>15</lc:X2>
 		<lc:Y2>22</lc:Y2>
 	</lc:Wire>
 	<lc:Wire>
@@ -39574,9 +39602,9 @@ each font scanline is set on single PUT command
 	<lc:Wire>
 		<lc:WireId>ac285437-bdc3-46e0-aeb3-ede413a6e780</lc:WireId>
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
-		<lc:X1>14</lc:X1>
+		<lc:X1>15</lc:X1>
 		<lc:Y1>22</lc:Y1>
-		<lc:X2>14</lc:X2>
+		<lc:X2>15</lc:X2>
 		<lc:Y2>29</lc:Y2>
 	</lc:Wire>
 	<lc:Wire>
@@ -46472,16 +46500,8 @@ each font scanline is set on single PUT command
 		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
 		<lc:X1>17</lc:X1>
 		<lc:Y1>11</lc:Y1>
-		<lc:X2>20</lc:X2>
+		<lc:X2>19</lc:X2>
 		<lc:Y2>11</lc:Y2>
-	</lc:Wire>
-	<lc:Wire>
-		<lc:WireId>00cf7648-f661-4559-a507-262507f1e1cd</lc:WireId>
-		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
-		<lc:X1>20</lc:X1>
-		<lc:Y1>11</lc:Y1>
-		<lc:X2>20</lc:X2>
-		<lc:Y2>24</lc:Y2>
 	</lc:Wire>
 	<lc:Wire>
 		<lc:WireId>202ce4ee-500d-45c7-87b6-f2c3ce1face3</lc:WireId>
@@ -46984,15 +47004,15 @@ each font scanline is set on single PUT command
 		<lc:LogicalCircuitId>6b4a714a-a031-4cd9-adc6-c1c7bc8e9fdb</lc:LogicalCircuitId>
 		<lc:X1>6</lc:X1>
 		<lc:Y1>4</lc:Y1>
-		<lc:X2>11</lc:X2>
+		<lc:X2>12</lc:X2>
 		<lc:Y2>4</lc:Y2>
 	</lc:Wire>
 	<lc:Wire>
 		<lc:WireId>b6600e26-9fbe-4392-8f02-484615c7f6f4</lc:WireId>
 		<lc:LogicalCircuitId>6b4a714a-a031-4cd9-adc6-c1c7bc8e9fdb</lc:LogicalCircuitId>
-		<lc:X1>11</lc:X1>
+		<lc:X1>12</lc:X1>
 		<lc:Y1>4</lc:Y1>
-		<lc:X2>11</lc:X2>
+		<lc:X2>12</lc:X2>
 		<lc:Y2>6</lc:Y2>
 	</lc:Wire>
 	<lc:Wire>
@@ -47499,6 +47519,94 @@ each font scanline is set on single PUT command
 		<lc:X2>38</lc:X2>
 		<lc:Y2>14</lc:Y2>
 	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>63eb9932-abd9-429a-9783-4c9492d6ce9c</lc:WireId>
+		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
+		<lc:X1>10</lc:X1>
+		<lc:Y1>46</lc:Y1>
+		<lc:X2>17</lc:X2>
+		<lc:Y2>46</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>b896bb8e-f297-4b85-9e2a-9ab855ed51a6</lc:WireId>
+		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
+		<lc:X1>17</lc:X1>
+		<lc:Y1>46</lc:Y1>
+		<lc:X2>17</lc:X2>
+		<lc:Y2>35</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>26d22d5b-b521-43de-a6f4-a3d0cb7eb375</lc:WireId>
+		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
+		<lc:X1>17</lc:X1>
+		<lc:Y1>46</lc:Y1>
+		<lc:X2>55</lc:X2>
+		<lc:Y2>46</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>ca6a0ebe-2642-44c9-974c-d3d81eecd92e</lc:WireId>
+		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
+		<lc:X1>20</lc:X1>
+		<lc:Y1>17</lc:Y1>
+		<lc:X2>20</lc:X2>
+		<lc:Y2>24</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>4ad4bfbf-478c-4489-ad2c-c5ebb0519731</lc:WireId>
+		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
+		<lc:X1>19</lc:X1>
+		<lc:Y1>11</lc:Y1>
+		<lc:X2>19</lc:X2>
+		<lc:Y2>14</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>7820a7f4-3bb6-426d-bc5e-2754b139cbdf</lc:WireId>
+		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
+		<lc:X1>11</lc:X1>
+		<lc:Y1>8</lc:Y1>
+		<lc:X2>21</lc:X2>
+		<lc:Y2>8</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>9aa7ab41-12db-4b11-97f3-e5edec958310</lc:WireId>
+		<lc:LogicalCircuitId>8c7ac102-7beb-46fd-8e44-00fab169f5a5</lc:LogicalCircuitId>
+		<lc:X1>21</lc:X1>
+		<lc:Y1>8</lc:Y1>
+		<lc:X2>21</lc:X2>
+		<lc:Y2>14</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>4b6d7296-85c4-461b-8b60-7f914cf916d1</lc:WireId>
+		<lc:LogicalCircuitId>6b4a714a-a031-4cd9-adc6-c1c7bc8e9fdb</lc:LogicalCircuitId>
+		<lc:X1>6</lc:X1>
+		<lc:Y1>2</lc:Y1>
+		<lc:X2>11</lc:X2>
+		<lc:Y2>2</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>a0b2488c-119b-40d5-ab42-0f7b5eb6c10a</lc:WireId>
+		<lc:LogicalCircuitId>6b4a714a-a031-4cd9-adc6-c1c7bc8e9fdb</lc:LogicalCircuitId>
+		<lc:X1>11</lc:X1>
+		<lc:Y1>2</lc:Y1>
+		<lc:X2>11</lc:X2>
+		<lc:Y2>6</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>ae106ca1-17a6-4d91-ac5d-416a2ba4691e</lc:WireId>
+		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
+		<lc:X1>17</lc:X1>
+		<lc:Y1>35</lc:Y1>
+		<lc:X2>15</lc:X2>
+		<lc:Y2>35</lc:Y2>
+	</lc:Wire>
+	<lc:Wire>
+		<lc:WireId>5226712b-3437-4a6d-9b7c-328d9c8ef85d</lc:WireId>
+		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
+		<lc:X1>15</lc:X1>
+		<lc:Y1>35</lc:Y1>
+		<lc:X2>15</lc:X2>
+		<lc:Y2>33</lc:Y2>
+	</lc:Wire>
 	<lc:TextNote>
 		<lc:TextNoteId>b2d9c4d2-58e7-4d5a-8604-0a2965a44b90</lc:TextNoteId>
 		<lc:LogicalCircuitId>c74f7d06-f2bc-4ec0-b5d9-0212b92f5b38</lc:LogicalCircuitId>
@@ -47646,7 +47754,7 @@ each font scanline is set on single PUT command
 	<lc:TextNote>
 		<lc:TextNoteId>02ccecd3-4b9a-45e9-bb03-294dbfc269ef</lc:TextNoteId>
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
-		<lc:X>17</lc:X>
+		<lc:X>18</lc:X>
 		<lc:Y>44</lc:Y>
 		<lc:Width>6</lc:Width>
 		<lc:Height>1</lc:Height>
@@ -47655,16 +47763,16 @@ each font scanline is set on single PUT command
 	<lc:TextNote>
 		<lc:TextNoteId>29d6c86b-ae56-4788-935e-159a3d9b9e00</lc:TextNoteId>
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
-		<lc:X>18</lc:X>
+		<lc:X>19</lc:X>
 		<lc:Y>45</lc:Y>
-		<lc:Width>5</lc:Width>
+		<lc:Width>6</lc:Width>
 		<lc:Height>1</lc:Height>
-		<lc:Note>&lt;FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;&lt;Paragraph&gt;&lt;Run xml:lang="it-it"&gt;#F bit 1 / Y&lt;/Run&gt;&lt;/Paragraph&gt;&lt;/FlowDocument&gt;</lc:Note>
+		<lc:Note>&lt;FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;&lt;Paragraph&gt;&lt;Run xml:lang="it-it"&gt;#F bit 1 / Y / A&lt;/Run&gt;&lt;/Paragraph&gt;&lt;/FlowDocument&gt;</lc:Note>
 	</lc:TextNote>
 	<lc:TextNote>
 		<lc:TextNoteId>000e006f-18b1-4c25-bc1a-78b77bf8633c</lc:TextNoteId>
 		<lc:LogicalCircuitId>cb9dcae7-7bcf-46e2-9589-21cc8d51b13a</lc:LogicalCircuitId>
-		<lc:X>19</lc:X>
+		<lc:X>20</lc:X>
 		<lc:Y>46</lc:Y>
 		<lc:Width>5</lc:Width>
 		<lc:Height>1</lc:Height>

@@ -14,7 +14,7 @@ ISA
 
 000 rr fff i8      //alu #i8
 001 rr fff z8      //alu zp8	ZP -> R
-010 rr cxd a8      //branch on Z(R) = C to PC + { sign_ext(d), offset8 }
+010 rr cad a8      //branch on Z(R) = C to PC + { sign_ext(d), offset8 }
 011 rr xyy a8      //jump to Y + disp8, L = PC
 100 rr 0yy a8      //ld.r Y, address8
 101 rr 0ff z8      //op R

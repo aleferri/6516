@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Manual 6516 ISA</title>
+        <style>
+        h1 {
+            display: inline-block;
+            width: 100%;
+            font-size: 36px;
+            height: auto;
+        }
+        body {
+            display: inline-block;
+            width: 100%;
+            height: auto;
+        }
+        li {
+            display: inline-block;
+            width: 80%;
+        }
+        
+        li span, li h3 {
+            display: inline-block;
+            width: 40%;
+        }
+        
+        li p {
+            padding-left: 50px;
+            display: inline-block;
+            width: 90%;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Assembly Programmer 6516 ISA Manual</h1>
+        <div id="introduction">
+            The 6516 ISA is a 16 bit word register-memory architecture. The memory is only addressable in 16 bit word and no other size is provided.<br>
+            However advanced operation like byte swapping are possibile, so the machine can address character-based I/O.<br>
+            I/O is memory mapped at the high address in the range FF00h-FFFFh, no more than a single write is guaranteed to happen on the whole memory,
+            so I/O handling is safe<br>
+        </div>
+        <div id="addressing">
+            <h2>Addressing Modes</h2>
+            The 6516 ISA provide a wide span of addressing modes.<br>
+            <ul>
+                <li>
+                    <h3>Direct (D)</h3>
+                    <p>: in assembly the address is directly referenced in the instruction, addresses allowed in this mode
+                    are limited to the first addresses, some of which are reserved for boot process and interrupt handling. <br>
+                    On the whole the addresses higher than 0010h until 00FFh are free to use for the programmer. <br>
+                    Example: ADD    A, 15
+                    </p>
+                </li>
+                <li>
+                    <h3>Implied (-)</h3>
+                    <p>: the address are implied in the instruction <br>
+                    Example: ASL    A
+                    </p>
+                </li>
+                <li>
+                    <h3>Immediate (L)</h3>
+                    <p>: the data is embedded in the instruction <br>
+                    Example: SUB    Y, #1
+                    </p>
+                </li>
+                <li>
+                    <h3>Indirect Register (I)</h3>
+                    <p>: the address is provided by one of the register <br>
+                    Example: LD     A, (Y, 0)
+                    </p>
+                </li>
+                <li>
+                    <h3>Indexed (X)</h3>
+                    <p>: the address is the sum of the register and the offset provided by the programmer<br>
+                    Example: LD     A, (X, 40)
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div id="opcodes">
+            <h2>Instruction Listing</h2>
+            <ul>
+                <li>
+                    <h3>ADD</h3> <span>D,L</span>
+                    <p>ADD accumulator with the specified value, emit carry</p>
+                </li>
+                <li>
+                    <h3>AND</h3> <span>D,L</span>
+                    <p>Compare the value of the register with another value, emit carry</p>
+                </li>
+                <li>
+                    <h3>ASL</h3> <span>-</span>
+                    <p>Arithmetic Shift left the specified register, emit carry</p>
+                </li>
+                <li>
+                    <h3>BEQ</h3> <span>L</span>
+                    <p>Branch to PC+disp8 if z(R)</p>
+                </li>
+                <li>
+                    <h3>BNE</h3> <span>L</span>
+                    <p>Branch to PC+disp8 if !z(R)</p>
+                </li>
+                <li>
+                    <h3>BRA</h3> <span>L</span>
+                    <p>Branch to PC+disp8</p>
+                </li>
+                <li>
+                    <h3>BSW</h3> <span>-</span>
+                    <p>Swap internal bytes of the register</p>
+                </li>
+                <li>
+                    <h3>CALL</h3> <span>X</span>
+                    <p>Call the subroutine contained at R+disp8, the assembler replace an arbitrary call with LH L, high8 and the CALL to L,low8</p>
+                </li>
+                <li>
+                    <h3>CMP</h3> <span>D,L</span>
+                    <p>Compare the value of the register with another value, emit carry</p>
+                </li>
+                <li>
+                    <h3>EOR</h3> <span>D,L</span>
+                    <p>Exclusive OR the value of the register with another value</p>
+                </li>
+                <li>
+                    <h3>ICY</h3> <span>-</span>
+                    <p>Increment the register with the current carry flag, emit carry</p>
+                </li>
+                <li>
+                    <h3>LD</h3> <span>D,L,I,X</span>
+                    <p>Load whole register with value</p>
+                </li>
+                <li>
+                    <h3>LH</h3> <span>D,L,I,X</span>
+                    <p>Load high part of the register with value</p>
+                </li>
+                <li>
+                    <h3>LSR</h3> <span>-</span>
+                    <p>Logical Shift Right the register, emit carry</p>
+                </li>
+                <li>
+                    <h3>ORA</h3> <span>D,L</span>
+                    <p>OR register with the value</p>
+                </li>
+                <li>
+                    <h3>ST</h3> <span>D,L,I,X</span>
+                    <p>Load register with value</p>
+                </li>
+                <li>
+                    <h3>SUB</h3> <span>D,L</span>
+                    <p>SUB the register with the value, emit carry</p>
+                </li>
+                <li>
+                    <h3>TAD</h3> <span>D,L</span>
+                    <p>Test ADD the register with the value, emit carry</p>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

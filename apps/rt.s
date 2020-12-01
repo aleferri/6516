@@ -2,7 +2,8 @@
             
             ; halt ( soft_reset : &fn() ) -> void
 _halt:      ST      A, 1
-            LD16    X, #0xFFFF
+            LH      X, #0xFF
+            ADD     X, #0xFF
             LD      Y, #1
             ST      A, (X + 0)
             
@@ -15,7 +16,8 @@ _wait:      LD      A, 16
             ST      A, 5
             ST      A, 6
             ST      A, 7
-            LD16    X, #0xFFFF
+            LH      X, #0xFF
+            ADD     X, #0xFF
             LD      Y, #1
             ST      Y, (X, 0)
 

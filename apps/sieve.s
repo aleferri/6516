@@ -10,13 +10,13 @@ bench_size:         .word #8192
 
 .advance 256
 
-_end:       JMP     P, _end
-            JMP     P, _end
+_end:       BRA     P, _end
+            BRA     P, _end
             
 _main:
             LD      A, #10
             CALL    _sieve
-            JMP     _end
+            BRA     _end
            
             ; sieve( iter : u16 )
 _sieve:     LD      X, #200
@@ -68,7 +68,7 @@ _sieve:     LD      X, #200
             LD      X, 196
             ADD     A, 197
             ADD     X, 197
-            JMP     .L2
+            BRA     .L2
 
 .RET:       LD      Y, bench_size
             LD      X, bench_size
@@ -88,7 +88,7 @@ _div_u16:   BNE     A, .L0
 .L0:        BNE     X, .setup
             LD      A, 16
             LD      Y, _trap_div_by_0
-            JMP     Y, 0
+            BRA     Y, 0
 .setup:
             
             
