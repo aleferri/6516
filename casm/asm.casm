@@ -42,15 +42,18 @@
 .opcode LD {{ r, #imm8 }}
 .with ( r : Regs ) -> {
     .if imm8 > 255 {
-        .error addr8, "Cannot embed 8+ bits of address inside the instruction, use LD16 instead";
+        .error addr8, "Cannot embed 8+ bits of address inside the instruction, use LH followed by ADD instead";
     }
 
     .out [ .expr ALU_OPCODE_IM( r, OP_MOV ), imm8 ];
 }
 
-.opcode LD16 {{ r, #imm16 }}
+.opcode LH {{ r, #imm8 }}
 .with ( r : Regs ) -> {
-    .out [ .expr ALU_OPCODE_IM( r, OP_MOV ), imm16 >> 8, .expr ALU_OPCODE_RU( r, OP_BSW ), 0, .expr ALU_OPCODE_IM( r, OP_ADD ), imm16 & 255 ];
+    .if imm8 > 255 {
+        .error imm8, "Cannot load the upper 8 bit with a value bigger than 255";
+    }
+    .out [ .expr ALU_OPCODE_IM( r, OP_MOV ), imm16 >> 8, .expr ALU_OPCODE_RU( r, OP_BSW ), 0 ];
 }
 
 .opcode LD {{ r, zp8 }}
@@ -90,7 +93,7 @@
     .if ( addr16 - .addr ) > 128 || ( addr16 - .addr ) < -126 {
         .error addr8, "Cannot branch outside the -126,128 address range";
     }
-    .out [ 0b01000000 + ( r << 4 ), addr16 - .addr ];
+    .out [ 0b01000010 + ( r << 4 ), addr16 - .addr ];
 }
 
 .opcode BNE {{ r, addr16 }}
@@ -98,7 +101,15 @@
     .if ( addr16 - .addr ) > 255 {
         .error addr8, "Cannot branch outside the -126,128 address range";
     }
-    .out [ 0b01000100 + ( r << 4 ), addr16 - .addr ];
+    .out [ 0b01000110 + ( r << 4 ), addr16 - .addr ];
+}
+
+.opcode BRA {{ r, addr16 }}
+.with ( r : Regs ) -> {
+    .if ( addr16 - .addr ) > 255 {
+        .error addr8, "Cannot branch outside the -126,128 address range";
+    }
+    .out [ 0b01000000 + ( r << 4 ), addr16 - .addr ];
 }
 
 .opcode CALL {{ addr16 }}
