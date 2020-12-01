@@ -45,34 +45,34 @@
             The 6516 ISA provide a wide span of addressing modes.<br>
             <ul>
                 <li>
-                    <h3>Direct (D)</h3>
-                    <p>: in assembly the address is directly referenced in the instruction, addresses allowed in this mode
+                    <h3>Direct (D):</h3>
+                    <p>in assembly the address is directly referenced in the instruction, addresses allowed in this mode
                     are limited to the first addresses, some of which are reserved for boot process and interrupt handling. <br>
                     On the whole the addresses higher than 0010h until 00FFh are free to use for the programmer. <br>
                     Example: ADD    A, 15
                     </p>
                 </li>
                 <li>
-                    <h3>Implied (-)</h3>
-                    <p>: the address are implied in the instruction <br>
+                    <h3>Implied (-):</h3>
+                    <p>the address are implied in the instruction <br>
                     Example: ASL    A
                     </p>
                 </li>
                 <li>
-                    <h3>Immediate (L)</h3>
-                    <p>: the data is embedded in the instruction <br>
+                    <h3>Immediate (L):</h3>
+                    <p>the data is embedded in the instruction <br>
                     Example: SUB    Y, #1
                     </p>
                 </li>
                 <li>
-                    <h3>Indirect Register (I)</h3>
-                    <p>: the address is provided by one of the register <br>
+                    <h3>Indirect Register (I):</h3>
+                    <p>the address is provided by one of the register <br>
                     Example: LD     A, (Y, 0)
                     </p>
                 </li>
                 <li>
-                    <h3>Indexed (X)</h3>
-                    <p>: the address is the sum of the register and the offset provided by the programmer<br>
+                    <h3>Indexed (X):</h3>
+                    <p>the address is the sum of the register and the offset provided by the programmer<br>
                     Example: LD     A, (X, 40)
                     </p>
                 </li>
@@ -87,7 +87,7 @@
                 </li>
                 <li>
                     <h3>AND</h3> <span>D,L</span>
-                    <p>Compare the value of the register with another value, emit carry</p>
+                    <p>Compare the value of the register with another value</p>
                 </li>
                 <li>
                     <h3>ASL</h3> <span>-</span>
@@ -95,15 +95,15 @@
                 </li>
                 <li>
                     <h3>BEQ</h3> <span>L</span>
-                    <p>Branch to PC+disp8 if z(R)</p>
+                    <p>Branch to PC + disp8 if z(R)</p>
                 </li>
                 <li>
                     <h3>BNE</h3> <span>L</span>
-                    <p>Branch to PC+disp8 if !z(R)</p>
+                    <p>Branch to PC + disp8 if !z(R)</p>
                 </li>
                 <li>
                     <h3>BRA</h3> <span>L</span>
-                    <p>Branch to PC+disp8</p>
+                    <p>Branch to PC + disp8 always</p>
                 </li>
                 <li>
                     <h3>BSW</h3> <span>-</span>
@@ -111,7 +111,12 @@
                 </li>
                 <li>
                     <h3>CALL</h3> <span>X</span>
-                    <p>Call the subroutine contained at R+disp8, the assembler replace an arbitrary call with LH L, high8 and the CALL to L,low8</p>
+                    <p>
+                        Call the subroutine with the address provided by R and an offset disp8.<br>
+                        The assembler replace an arbitrary call to a specified 16 bit address with:<br>
+                        LH &nbsp; &nbsp; &nbsp; &nbsp; L, #high8<br> 
+                        CALL &nbsp; L, #low8<br>
+                    </p>
                 </li>
                 <li>
                     <h3>CMP</h3> <span>D,L</span>
@@ -142,7 +147,7 @@
                     <p>OR register with the value</p>
                 </li>
                 <li>
-                    <h3>ST</h3> <span>D,L,I,X</span>
+                    <h3>ST</h3> <span>D,I,X</span>
                     <p>Load register with value</p>
                 </li>
                 <li>
