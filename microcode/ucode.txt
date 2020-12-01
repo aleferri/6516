@@ -1,8 +1,9 @@
 
 
 _ALU_IMM:
-        ucode_lw #2 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
-        ucode_uw LD=1,0,0,1 ALU=0,0
+        ; DI -> ALU_B ; REG[@R] -> ALU_A ; ALU -> REG[@R] ; PC ++ -> PC ; PC ++ -> AR ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#3 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=1,0,0,1,1 INC=1 ALU=any
         
         padding
         
@@ -11,117 +12,143 @@ _ALU_IMM:
         padding
         
 _ALU_ZP8:
-
-        ; Step 0
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,0,1,1 ALU=0,0
         
-        ; Step 1
-        ucode_lw #2 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=1,1,1,0 ALU=1,0
+        ; DI -> AR ;
+        ucode_byte_low      REG=0 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=1,0,0,1,0 INC=0 ALU=mov
         
-        ; Step 2
-        ucode_lw #2 OUT_PC=0 BR=0 NEXT=0 ISSUE=1 WR=0
-        ucode_uw LD=1,0,0,0 ALU=0,0
+        ; MEM -> B ; PC ++ -> PC, AR
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,1,1,1 INC=1 ALU=any
         
-        padding
+        ; REG[@R] -> ALU_A ; B -> ALU_B ; ALU -> REG[@R] ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#1 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=1,0,0,1,1 INC=1 ALU=any
         
+        ; Step 3
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=any
 
 _BRANCH:
-        ; Step 0
-        ucode_lw #0 OUT_PC=0 BR=1 NEXT=1 ISSUE=0 WR=0
-        ucode_uw LD=0,0,0,1 ALU=0,0
+        ; BUS[@R] ; PC ++ -> AR, PC ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#3 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=any
         
-        ; Step 1
-        ucode_lw #2 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=1,0,1,0 ALU=1,0
+        ; PC + DI -> PC, AR
+        ucode_byte_low      REG=1 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=0 ALU=add
         
-        ; Step 2 : FIX PREFETCH
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
-        ucode_uw LD=0,0,0,1 ALU=0,0
+        ; FETCH ; PC ++ -> PC, AR;
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=mov
         
-        padding
+        ; FETCH ; ISSUE ;
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=mov
         
 
 _JUMP:
-        ; Step 0
-        ucode_lw #3 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=1,0,1,0 ALU=0,0
+        ; PC -> R ;
+        ucode_byte_low      REG=1 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=1,0,0,0,0 INC=0 ALU=mov
         
-        ; Step 1 : FIX PREFETCH
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
-        ucode_uw LD=0,0,0,1 ALU=0,0
+        ; REG[@Y] + DI -> PC, AR
+        ucode_byte_low      REG=1 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=0 ALU=add
         
-        padding
+        ; FETCH ; PC ++ -> PC, AR ;
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=mov
         
-        padding
+        ; FETCH ; ISSUE ;
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=mov
+        
 
 _LOAD_Y:
-        ; Step 0
-        ucode_lw #2 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,0,1,1 ALU=1,1
+        ; REG[@Y] + DI -> AR
+        ucode_byte_low      REG=2 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,0 INC=0 ALU=add
         
-        ; Step 1
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,1,1,0 ALU=0,0
+        ; PC -> AR ; MEM -> B
+        ucode_byte_low      REG=1 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,1,1,0 INC=0 ALU=mov
         
-        ; Step 2
-        ucode_lw #1 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
-        ucode_uw LD=1,0,0,0 ALU=0,0
-        
-        ; Step 3
+        ; PC ++ -> AR, PC ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#1 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=1,0,0,1,1 INC=1 ALU=mov
+       
         padding
         
 _ALU_UNARY:
-        ucode_lw #3 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=0
-        ucode_uw LD=1,0,0,1 ALU=0,0
+        ; DI -> ALU_B ; REG[@R] -> ALU_A ; ALU -> REG[@R] ; PC ++ -> PC ; PC ++ -> AR ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#3 CRB=#1 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=1,0,0,1,1 INC=1 ALU=any
         
         padding
         
         padding
         
         padding
-        
 
 _STORE_Y:
-        ; Step 0
-        ucode_lw #2 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,0,1,1 ALU=1,1
+        ; REG[@Y] + DI -> AR
+        ucode_byte_low      REG=2 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,0 INC=0 ALU=add
         
-        ; Step 1
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=1
-        ucode_uw LD=0,0,0,0 ALU=0,0
+        ; REG[@R] -> MEM_D ;
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,1,0,0,0 INC=0 ALU=mov
         
-        padding
+        ; PC -> AR ; WRITE
+        ucode_byte_low      REG=1 CDB=#0 CRB=#0 WM=1 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=0 ALU=mov
         
-        padding
+        ; PC ++ -> AR, PC ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=1,0,0,1,1 INC=1 ALU=mov
         
 _STORE_ZP:
-        ; Step 0
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,0,1,1 ALU=0,0
+        ; DI -> AR
+        ucode_byte_low      REG=0 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,0 INC=0 ALU=mov
         
-        ; Step 1
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=1 ISSUE=0 WR=1
-        ucode_uw LD=0,0,0,0 ALU=0,0
+        ; REG[@R] -> MEM_D ;
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,1,0,0,0 INC=0 ALU=mov
         
-        padding
+        ; WRITE ; PC -> AR
+        ucode_byte_low      REG=1 CDB=#0 CRB=#0 WM=1 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,0 INC=0 ALU=mov
         
-        padding
-
+        ; FETCH ; ISSUE
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=mov
+    
 _FETCH:
-        ; Step 0        --    Init Only
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,1,0,0 ALU=0,0
+        ; Step 0        --    Init Only: LD B, [AR]
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,1,0,0 INC=0 ALU=mov
         
-        ; Step 1        --    Init Only
-        ucode_lw #1 OUT_PC=1 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=1,0,1,0 ALU=0,0
+        ; Step 1        --    Init Only: LD PC, B ; LD AR, B
+        ucode_byte_low      REG=0 CDB=#1 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=0 ALU=mov
         
-        ; Step 2        --    AR OK, PREFETCH DIRTY
-        ucode_lw #0 OUT_PC=0 BR=0 NEXT=0 ISSUE=0 WR=0
-        ucode_uw LD=0,0,0,1 ALU=0,0
+        ; Step 2        --    Init Only: Fetch
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=0
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=any
         
-        ; Step 3        --    AR DIRTY, PREFETCH READY, ISSUE       ENVIRONMENT: PC IS POINTING TO THIS_ADDR + 2, PREFETCH IS INVALID
-        ucode_lw #3 OUT_PC=1 BR=0 NEXT=0 ISSUE=1 WR=0
-        ucode_uw LD=1,1,1,0 ALU=1,0         
+        ; Step 3        --    Init Only: Fetch & Issue
+        ucode_byte_low      REG=0 CDB=#0 CRB=#0 WM=0 FETCH=1 ISSUE=1
+        ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=any
+        
+        ; Pipeline valid: 1 instruction in FETCH, 1 instruction ISSUED
+        
+_IRQ:
+        ; move ED to AR
+        ; move L to D ; move PC to L ; move mem to B
+        ; move ED to PC
+        ; move PC++ to AR
+        ; write mem ; move B to PC, AR
+        ; fetch ; PC ++ to AR, PC
+        ; fetch & issue

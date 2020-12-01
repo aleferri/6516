@@ -94,16 +94,15 @@ _memset:    LD      Y, 17
 .L1:        RET
 
             ; memcpy ( a : &u16, b: &u16, c : u16 ) -> void
-_memcpy:    LD      Y, 17
-            BEQ     Y, .L1
-.L0:        ST      Y, 17
-            LD      Y, (A, 0)
-            ST      Y, (X, 0)
-            LD      Y, 17
+_memcpy:    BEQ     Y, .L1
+            ST      L, 16
+.L0:        LD      L, (A, 0)
+            ST      L, (X, 0)
             ADD     A, #1
             ADD     X, #1
             SUB     Y, #1
             BNE     Y, .L0
+            LD      L, 16
 .L1:        RET
 
             ; lsl_u16( a: u16, f : u16 ) -> u16

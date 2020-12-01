@@ -32,9 +32,9 @@ _sieve:     LD      X, #200
 .L0:        BEQ     A, .RET
             ST      A, .i
             LD      X, bench_size
-            ST      X, 17 ; memset[3]
+            LD      Y, bench_size
             LD      A, #1
-            CALL    _memset                 ; SIMULATED: ST P, 16 ; LD P, (P, 1) ; REMIND: P is Instruction Address + 1
+            CALL    _memset
             LD      X, #0
             ST      X, .j
         
@@ -80,7 +80,7 @@ _sieve:     LD      X, #200
             BNE     Y, .RET
             RET
         
-include     "rt.s"
+.include     "rt.s"
             
             ; div_u16( a : u16, b : u16 ) -> u16
 _div_u16:   BNE     A, .L0

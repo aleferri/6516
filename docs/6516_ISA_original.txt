@@ -1,0 +1,80 @@
+
+6516v1 Revision A
+
+ISA
+
+-- Register Set
+
+16 bit register P
+16 bit register A
+16 bit register X
+16 bit register Y
+
+-- Instruction Format
+
+00 rr 0fff i8      //alu #i8
+00 rr 1fff z8      //alu zp8	ZP -> R
+01 rr 0cyy a8      //branch on Z(R) = C to PC + sign_ext(offset8)
+01 rr 10yy a8      //jump to PC + sign_ext(offset8)
+10 rr 00yy a8      //ld.r Y, address8
+10 rr 100f z8      //op R
+11 rr 00yy a8      //st.r Y, address8
+11 rr 1000 z8      //st.r zp8
+
+Legend:
+    
+    - i8: immediate 8 bit
+    - z8: zero page, address from 0x0000 to 0x00FF (16 bit words)
+    - a8: 8 bit displacement (offset) from one register or implied PC
+
+ALU encoding (fff): 
+    - 000 ADD   A + B, 
+    - 001 TAD   carry_out(A + B + CY) with CY set to 0, 
+    - 010 SUB   A + ~B + CY, with CY set to 1, 
+    - 011 CMP   carry_out(A + ~B + CY) with CY set to 1, 
+    - 100 AND   A & B, 
+    - 101 OR    A | B, 
+    - 110 EOR   A ^ B, 
+    - 111 MOV   B
+    
+ALU2 encoding (ff):
+    - 00 ICY
+    - 01 RESERVED
+    - 10 ASL Arithmetic Shift Left, 
+    - 11 LSR Logical Shift Right
+
+PERFORMANCE:
+ALU_IM8:    BEST 1, WORST: 2
+ALU_ZP8:    BEST 3, WORST: 4
+BRANCH:     BEST 1, WORST: 4
+JUMP:       BEST 2, WORST: 4
+LOAD:       BEST 3, WORST: 4
+STORE:      BEST 2, WORST: 3
+
+-- Internals
+
+Microcode Signals:
+bit   0-3: LD_GR LD_DR LD_AR LD_PR                  -- Load General Register, Load Data Register, Load Address Register, Load Prefetch Register
+bit     4: FORCE_ALU (0: ALLOW, 1: FORCE)           -- Force ADD OR ICY operation in ALU
+bit   5-6: RESERVED
+bit     7: Y_SEL { USE Y INSTEAD OF R }             -- Use YY bits from the instruction instead of the RR bits
+bit   8-9: OE_BUS (0: R, 1: DR, 2: ALU_B, 3: ALU_U) -- Output Enable of units to the internal common bus
+bit    10: MASK_R# (0: ALLOW, 1: FORCE_PC)          -- Mask Register Selection
+bit    11: EVAL_BR                                  -- Mask NEXT signal if Condition is met
+bit    12: NEXT                                     -- Repeat microcode loop (used when AR is not set to PC at the end of an instruction or prefetch is not ready)
+bit    13: WRITE                                    -- Write to Memory
+bit    14: ISSUE                                    -- Issue Next Instruction From Prefetch
+bit    15: RESERVED
+
+-- Boot Process:
+    Read Address at 0x0000
+    Jump to the specified address
+    Start Microcode Loop
+    
+Example program:
+
+@100
+LD A, #6        0001 0111 0000 0110     1706
+LD X, #0        0010 0111 0000 0000     2700
+SUB X, #255     0010 0010 1111 1111     22FF
+ST A, (X, 4)    1101 0010 0000 0100     D204

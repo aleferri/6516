@@ -1,33 +1,45 @@
 
-// MSB -> LSB
-// bit   0-3= LD_GR LD_DR LD_AR LD_PF
-// bit     4= FORCE_ALU (0= ALLOW, 1= FORCE)
-// bit     5= 0
-// bit     6= 0
-// bit     7= Y_SEL
-// bit   8-9= OE_BUS (0= R, 1= DR, 2= ALU_B, 3= ALU_U)
-// bit    10= MASK_R# (0= ALLOW, 1= FORCE_PC)
-// bit    11= BR_MASK_CC
-// bit    12= ISSUE_NEXT_OP
-// bit    13= WRITE_MEM
-// bit 14-15= 0
+// 
+// bit 11-15: LD_R, LD_M, LD_B, LD_A, LD_PC               -- Load Register, Load Memory, Load Buffer, Load AR
+// bit    10: ~INC                                        -- Assert Increment Line
+// bit     9: ALU_SEL#0 ( SEL ADD )
+// bit     8: ALU_SEL#1 ( SEL MOV )
+// bit     7: Y_SEL ( USE Y INSTEAD OF R )
+// bit     6: PC_SEL ( USE PC INSTEAD OF R IN OUTPUT )
+// bit   4-5: OE_BUS_D                                     -- OE Data Bus( 0: R, 1: B, 2: ALU, 3: DI )
+// bit     3: OE_BUS_R                                     -- OE Result Bus ( 0: ALU_0, 1: ALU_1 )
+// bit     2: WR_MEM                                       -- Write Mem
+// bit     1: FETCH
+// bit     0: ISSUE                                        -- Issue Next Instruction From Prefetch
 
-.enum FLAGS {
+.enum UFLAGS {
     LD,
-    ALU,
-    NEXT,
-    ISSUE,
-    OUT_PC,
-    BR,
-    WR
+    INC,
+    ALU
 }
 
-.opcode ucode_uw LD=ld_gr,ld_dr,ld_ar,ld_pf ALU=force,y_sel -> {
-    .db (ld_gr << 7) + (ld_dr << 6) + (ld_ar << 5) + (ld_pf << 4) + (force << 3) + y_sel;
+.enum LFLAGS {
+    REG,
+    CDB,
+    CRB,
+    WM,
+    FETCH,
+    ISSUE
 }
 
-.opcode ucode_lw #BUS OUT_PC=force_pc BR=disable NEXT=go_next ISSUE=issue_next WR=write -> {
-    .db (BUS << 6) + (force_pc << 5) + (disable << 4) + ( go_next << 3 ) + ( write << 2 ) + ( issue_next << 1 );
+.enum ALU_VALUES {
+    any,
+    add,
+    mov,
+    null_1
+}
+
+.opcode ucode_byte_high LD=ld_gr,ld_mo,ld_mi,ld_ar,ld_pc INC=inc_val ALU=alu_v -> {
+    .db (ld_gr << 7) + (ld_mo << 6) + (ld_mi << 5) + (ld_ar << 4) + (ld_pc << 3) + ((!inc_val) << 2) + alu_v;
+}
+
+.opcode ucode_byte_low REG=r CDB=#cdb_v CRB=#crb_v WM=w FETCH=_if ISSUE=_is -> {
+    .db (r << 6) + (cdb_v << 4) + (crb_v << 3) + ( w << 2 ) + ( _if << 1 ) + _is;
 }
 
 .opcode padding -> {
