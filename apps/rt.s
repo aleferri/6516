@@ -5,7 +5,7 @@ _halt:      ST      A, 1
             LH      X, #0xFF
             ADD     X, #0xFF
             LD      Y, #1
-            ST      A, (X + 0)
+            ST      A, (X, 0)
             
             ; wait ( ) -> void
 _wait:      LD      A, 16
@@ -32,8 +32,8 @@ _self_test: LD      X, #0
 
 _bcd_binary: .db 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 9, 0, 0, 1, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5
 
-            ; dec2bcd ( n : u16, ptr : &u16 ) -> void
-_dec2bcd:   LD      Y, 4            ; i = 4; temp = n;
+            ; bin2bcd ( n : u16, ptr : &u16 ) -> void
+_bin2bcd:   LD      Y, 4            ; i = 4; temp = n;
 .L0:        ST      A, 18           ; while ( i != 0 ) {
             AND     A, #15          ;       nibble = temp & 15;
             ASL     A               ;       nibble <<= 2;
@@ -87,8 +87,7 @@ _print7:    LD      X, #0
             
 
             ; memset ( z: u16, a : &u16, c : u16 ) -> void
-_memset:    LD      Y, 17
-            BEQ     Y, .L1
+_memset:    BEQ     Y, .L1
 .L0:        ST      A, (X, 0)
             ADD     X, #1
             SUB     Y, #1

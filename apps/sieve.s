@@ -1,17 +1,17 @@
             
-_reset:             .word _main
+_reset:             DWI _main
 
 .advance 8
 
-_trap_div_by_0:     .word _halt
+_trap_div_by_0:     DWI _end
 
 .advance 232
-bench_size:         .word #8192    
+bench_size:         DWI 8192    
 
 .advance 256
 
-_end:       BRA     P, _end
-            BRA     P, _end
+_end:       BRA     _end
+            BRA     _end
             
 _main:
             LD      A, #10
@@ -20,35 +20,32 @@ _main:
            
             ; sieve( iter : u16 )
 _sieve:     LD      X, #200
-.alias i        199
-.alias j        198
-.alias count    197
-            ST      A, i
-            CALL    _dec2bcd
-            LD      A, i
+            ST      A, 199
+            CALL    _bin2bcd
+            LD      A, 199
             SUB     A, #1
         
             ; FOR 1 TO 10
 .L0:        BEQ     A, .RET
-            ST      A, i
+            ST      A, 199
             LD      X, bench_size
             LD      Y, bench_size
             LD      A, #1
             CALL    _memset
             LD      X, #0
-            ST      X, j
+            ST      X, 198
         
             ; FOR I := 0 TO 8192
-.L1:        LD      X, j
+.L1:        LD      X, 198
             SUB     X, bench_size
-            BEQ     X, .BREAK
+            BEQ     X, .L0
             LD      Y, bench_size
-            ADD     Y, j
+            ADD     Y, 198
             LD      A, (Y, 0)
                 
             ; IF FLAGS[I]
             BNE     A, .L1
-            LD      X, .i
+            LD      X, 199
             ASL     X
             ADD     X, #3
             ST      X, 197  ; PRIME
@@ -57,7 +54,7 @@ _sieve:     LD      X, #200
                 
             ; WHILE K < SIZE
 .L2:        LD      Y, #0
-            SUB     X, .bench_size
+            SUB     X, bench_size
             BEQ     X, .L1
             ICY     Y
             BEQ     Y, .L1
@@ -76,20 +73,42 @@ _sieve:     LD      X, #200
             ST      A, 195
             ADD     A, 195
             SUB     Y, #1
-            ADD     Y. #1
+            ADD     Y, #1
             BNE     Y, .RET
             RET
+
+_find:      LD      Y, (A, 0)
+            ST      Y, 17   ; 17 = array_0, 18 = arr*, 19 = ret, 20 = grt, 21 = FFFF
+            ST      A, 18
+            ST      L, 19
+            LD      L, #30
+            LD      Y, #0
+            ST      Y, 20
+            SUB     Y, #1
+            ST      Y, 21
+.L0:        SUB     L, #1
+            BEQ     L, .FAIL
+            LD      A, (X, 0)
+            ST      A, 22
+            LD      Y, #0
+            CMP     A, 17
+            ICY     Y
+            EOR     Y, 21
+            ADD     Y, #2
+            ADD     Y, 20
+            ST      Y, 20
+            SUB     A, #255
+            LD      X, 22
+            ADD     X, 18
+            BNE     Y, .L0
+            LD      L, 19
+            RET
+.FAIL:      LD      A, #255
+            LD      L, 19
+            RET
+            
         
 .include     "rt.s"
-            
-            ; div_u16( a : u16, b : u16 ) -> u16
-_div_u16:   BNE     A, .L0
-            RET
-.L0:        BNE     X, .setup
-            LD      A, 16
-            LD      Y, _trap_div_by_0
-            BRA     Y, 0
-.setup:
             
             
             
