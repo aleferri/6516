@@ -1,4 +1,4 @@
-.advance 0xE000
+.advance 0x1C000
             
             ; halt ( soft_reset : &fn() ) -> void
 _halt:      ST      A, 1

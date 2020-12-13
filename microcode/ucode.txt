@@ -35,7 +35,7 @@ _BRANCH:
         ucode_byte_high     LD=0,0,0,1,1 INC=1 ALU=any
         
         ; PC + DI -> PC, AR
-        ucode_byte_low      REG=1 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_low      REG=pc CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
         ucode_byte_high     LD=0,0,0,1,1 INC=0 ALU=add
         
         ; FETCH ; PC ++ -> PC, AR;
@@ -49,11 +49,11 @@ _BRANCH:
 
 _JUMP:
         ; PC -> R ;
-        ucode_byte_low      REG=1 CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_low      REG=pc CDB=#0 CRB=#0 WM=0 FETCH=0 ISSUE=0
         ucode_byte_high     LD=1,0,0,0,0 INC=0 ALU=mov
         
         ; REG[@Y] + DI -> PC, AR
-        ucode_byte_low      REG=1 CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
+        ucode_byte_low      REG=iy CDB=#3 CRB=#0 WM=0 FETCH=0 ISSUE=0
         ucode_byte_high     LD=0,0,0,1,1 INC=0 ALU=add
         
         ; FETCH ; PC ++ -> PC, AR ;

@@ -2,8 +2,8 @@
 // 
 // bit 11-15: LD_R, LD_M, LD_B, LD_A, LD_PC               -- Load Register, Load Memory, Load Buffer, Load AR
 // bit    10: ~INC                                        -- Assert Increment Line
-// bit     9: ALU_SEL#0 ( SEL ADD )
-// bit     8: ALU_SEL#1 ( SEL MOV )
+// bit     9: ALU_SEL#0 ( SEL MOV )
+// bit     8: ALU_SEL#1 ( SEL ADD )
 // bit     7: Y_SEL ( USE Y INSTEAD OF R )
 // bit     6: PC_SEL ( USE PC INSTEAD OF R IN OUTPUT )
 // bit   4-5: OE_BUS_D                                     -- OE Data Bus( 0: R, 1: B, 2: ALU, 3: DI )
@@ -32,6 +32,13 @@
     add,
     mov,
     null_1
+}
+
+.enum ALT_REGS {
+    any,
+    pc,
+    iy,
+    null_2
 }
 
 .opcode ucode_byte_high LD=ld_gr,ld_mo,ld_mi,ld_ar,ld_pc INC=inc_val ALU=alu_v -> {

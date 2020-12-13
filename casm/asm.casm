@@ -97,7 +97,7 @@
     .if ( addr16 - .addr ) > 128 || ( addr16 - .addr ) < -126 {
         .error addr8, "Cannot branch outside the -126,128 address range";
     }
-    .outr [ 0b01000000 + ( r << 3 ), ( addr16 - .addr ) / 2 ];
+    .outr [ 0b01000000 + ( r << 3 ), ( addr16 - .addr - 2 ) / 2 ];
 }
 
 .opcode BNE {{ r, addr16 }}
@@ -105,7 +105,7 @@
     .if ( addr16 - .addr ) > 128 || ( addr16 - .addr ) < -126 {
         .error addr8, "Cannot branch outside the -126,128 address range";
     }
-    .outr [ 0b01000100 + ( r << 3 ), ( addr16 - .addr ) / 2 ];
+    .outr [ 0b01000100 + ( r << 3 ), ( addr16 - .addr - 2 ) / 2 ];
 }
 
 .opcode BRA {{ addr16 }}
@@ -113,7 +113,7 @@
     .if ( addr16 - .addr ) > 128 || ( addr16 - .addr ) < -126 {
         .error addr8, "Cannot branch outside the -126,128 address range";
     }
-    .outr [ 0b01000010, ( addr16 - .addr ) / 2 ];
+    .outr [ 0b01000010, ( addr16 - .addr - 2 ) / 2 ];
 }
 
 // Unary ALU
@@ -236,11 +236,11 @@
     // LH L, high(addr16)
     // BSW L
     // JMP L, low(addr16)
-    .outr [ .expr ALU_OPCODE_IM( 0, OP_MOV ), addr16 >> 9, .expr ALU_OPCODE_RU( 0, OP_BSW ), 0, 0b01100000, ( addr16 >> 1 ) & 255 ];
+    .out [ addr16 >> 9, .expr ALU_OPCODE_IM( 3, OP_MOV ), 0, .expr ALU_OPCODE_RU( 3, OP_BSW ), ( addr16 >> 1 ) & 255, 0b01100011 ];
 }
 
 .opcode RET {{ }}
 .with () -> {
     // JMP ( L + 1 )
-    .outr [ 0b01100000, 0 ];
+    .outr [ 0b01100000, -1 ];
 }

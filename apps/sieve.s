@@ -1,14 +1,14 @@
             
 _reset:             DWI _main
 
-.advance 8
+.advance 16
 
 _trap_div_by_0:     DWI _end
 
-.advance 232
+.advance 464
 bench_size:         DWI 8192    
 
-.advance 256
+.advance 512
 
 _end:       BRA     _end
             BRA     _end
