@@ -1,25 +1,80 @@
             
-_reset:             DWI _main
+_reset:             DWI _boot
 
 .advance 16
 
 _trap_div_by_0:     DWI _end
+
+.advance 64
+.dw 1, 4, 7, 0, 2, 5, 8, 10, 3, 6, 9, 16, 11, 12, 13, 14
 
 .advance 464
 bench_size:         DWI 8192    
 
 .advance 512
 
-_end:       BRA     _end
-            BRA     _end
+_end:       BRA     _end        ; 100
+            BRA     _end        ; 101
+
+_boot:      LD      A, #0       ; 102
+            LH      X, #0xFF    ; 103
+            ST      X, 44       ; 105
+            ADD     X, #4       ; 106
+            LD      Y, #4       ; 107
+.L0:        ST      A, (X, 0)   ; 108
+            ADD     X, #1       ; 109
+            SUB     Y, #1       ; 110
+            BNE     Y, .L0      ; 111
+            LD      X, 44       ; 111
+            LD      A, #3       ; 112
+            ST      A, 32
+.L2:        CALL    _digit
+            LD      A, 44
+            ADD     A, #5           ; 0xFF05
+            CALL    _shl_digit      ; 0xFF04
+            ADD     A, #2           ; 0xFF06
+            CALL    _shl_digit      ; 0xFF05
+            ADD     A, #2           ; 0xFF07
+            CALL    _shl_digit      ; 0xFF06
+            ADD     A, #1
+            LD      Y, 50
+            ST      Y, (A, 0)
+            LD      A, 32
+            SUB     A, #1
+            BNE     A, .L2
             
-_main:
-            LD      A, #10
-            CALL    _sieve
-            BRA     _end
+            ADD     X, 4
+            LD      A, #0
+            ST      A, 42
+            LD      Y, #3
+.stop:      LD      A, (X, 0)
+            ADD     A, 42
+            ASL     A
+            ST      A, 40
+            ASL     A
+            ASL     A
+            ADD     A, 40
+            ST      A, 42
+            SUB     Y, #1
+            ADD     X, #1
+            BNE     Y, .stop
+.st:        ST      A, 200
+            BRA     .st
+
+_shl_digit: LD      Y, (A, 0)
+            SUB     A, #1
+            ST      Y, (A, 0)
+            RET
+           
+_digit:     LD      Y, (X, 1)
+            BEQ     Y, _digit
+            LD      Y, (X, 0)
+            LD      Y, (Y, 32)
+            ST      Y, 50
+            RET
            
             ; sieve( iter : u16 )
-_sieve:     LD      X, #200
+_sieve:     LH      X, #0xA0
             ST      A, 199
             CALL    _bin2bcd
             LD      A, 199

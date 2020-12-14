@@ -87,7 +87,8 @@ _print7:    LD      X, #0
             
 
             ; memset ( z: u16, a : &u16, c : u16 ) -> void
-_memset:    BEQ     Y, .L1
+_memset:    LD      Y, 32
+            BEQ     Y, .L1
 .L0:        ST      A, (X, 0)
             ADD     X, #1
             SUB     Y, #1
