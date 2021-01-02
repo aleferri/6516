@@ -1,5 +1,5 @@
             
-_reset:             DWI _boot
+_reset:             DWI _sieve
 
 .advance 16
 
@@ -75,14 +75,14 @@ _digit:     LD      Y, (X, 1)
            
             ; sieve( iter : u16 )
 _sieve:     LH      X, #0xA0
-            ST      A, 199
+            ST      A, 200
             CALL    _bin2bcd
-            LD      A, 199
+            LD      A, 200
             SUB     A, #1
         
             ; FOR 1 TO 10
 .L0:        BEQ     A, .RET
-            ST      A, 199
+            ST      A, 200
             LD      X, bench_size
             LD      Y, bench_size
             LD      A, #1
@@ -100,12 +100,12 @@ _sieve:     LH      X, #0xA0
                 
             ; IF FLAGS[I]
             BNE     A, .L1
-            LD      X, 199
+            LD      X, 200
             ASL     X
             ADD     X, #3
-            ST      X, 197  ; PRIME
+            ST      X, 194  ; PRIME
             LD      A, #1
-            ADD     A, 197  ; K
+            ADD     A, 194  ; K
                 
             ; WHILE K < SIZE
 .L2:        LD      Y, #0
@@ -118,48 +118,18 @@ _sieve:     LH      X, #0xA0
             ST      Y, (A, 0)
             ST      A, 196
             LD      X, 196
-            ADD     A, 197
-            ADD     X, 197
+            ADD     A, 194
+            ADD     X, 194
             BRA     .L2
 
 .RET:       LD      Y, bench_size
             LD      X, bench_size
             LD      A, (X, 0)
-            ST      A, 195
-            ADD     A, 195
+            ST      A, 192
+            ADD     A, 192
             SUB     Y, #1
             ADD     Y, #1
             BNE     Y, .RET
-            RET
-
-_find:      LD      Y, (A, 0)
-            ST      Y, 17   ; 17 = array_0, 18 = arr*, 19 = ret, 20 = grt, 21 = FFFF
-            ST      A, 18
-            ST      L, 19
-            LD      L, #30
-            LD      Y, #0
-            ST      Y, 20
-            SUB     Y, #1
-            ST      Y, 21
-.L0:        SUB     L, #1
-            BEQ     L, .FAIL
-            LD      A, (X, 0)
-            ST      A, 22
-            LD      Y, #0
-            CMP     A, 17
-            ICY     Y
-            EOR     Y, 21
-            ADD     Y, #2
-            ADD     Y, 20
-            ST      Y, 20
-            SUB     A, #255
-            LD      X, 22
-            ADD     X, 18
-            BNE     Y, .L0
-            LD      L, 19
-            RET
-.FAIL:      LD      A, #255
-            LD      L, 19
             RET
             
         

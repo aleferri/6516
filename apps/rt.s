@@ -84,6 +84,7 @@ _print7:    LD      X, #0
             ST      Y, (X, 6)
             LD      Y, (A, 3)
             ST      Y, (X, 7)
+            RET
             
 
             ; memset ( z: u16, a : &u16, c : u16 ) -> void
