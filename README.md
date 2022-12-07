@@ -8,4 +8,4 @@ Note: i wrote this Readme just in case. Since there's only me here and no one el
 Also note that you will probably never read this message or worry about it in general, mostly because you don't exists. If you happen to exists and you found this project, well... congratulations, now you can be worried about your inability to compile assembly to it, feel free to file an issue to expose your concerns about the current status of dev tools. Thank you.
 
 # Status
-Early Beta, it should work fine. Specification is complete, a such unless something really bad happen, no new instruction will be added.
+Early Beta, it should work fine. Specification is complete, as such unless something really bad happen, no new instruction will be added.
